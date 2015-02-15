@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
 		float h = Input.GetAxisRaw ("Horizontal");
 		float v = Input.GetAxisRaw ("Vertical");
 		float c = Input.GetAxisRaw ("Jump");
-		// Glöm för fan inte att unchecka "Freeze position Y" 
+		// Glöm för fan inte att unchecka "Freeze position Y om du ska kunna hoppa" 
 		
 		Move (h,c,v);
 		Turning ();
@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Move (float h, float c,float v)
 	{
+		// Movementkontroller, försök lista ut hur du kan seperera jump från denna funktion
 		movement.Set (h, c, v);
 		movement = movement.normalized * speed * Time.deltaTime;
 		playerRigidbody.MovePosition (transform.position + movement);
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Turning()
 	{
+		 // Camray som rör sig efter muspekaren, kom ihåg att spelplan måste taggas som floor
 		Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit floorHit;
 		if (Physics.Raycast (camRay, out floorHit, camRayLength, floorMask)) 
@@ -59,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 	}
 	
 	void Animating(float h, float v)
-	{
+	{ // animationer
 		bool walking = h != 0f || v != 0f;
 		anim.SetBool ("IsWalking", walking);
 	}
