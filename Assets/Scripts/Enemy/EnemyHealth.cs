@@ -7,6 +7,8 @@ public class EnemyHealth : MonoBehaviour
     public float sinkSpeed = 2.5f;
     public int scoreValue = 10;
     public AudioClip deathClip;
+	public AudioClip hurtClip;
+
 
 
     Animator anim;
@@ -18,9 +20,10 @@ public class EnemyHealth : MonoBehaviour
 
 
     void Awake ()
-    {
+    { // startfunktioner, Particles går igenom subklasserna till Zombieklassen.
         anim = GetComponent <Animator> ();
         enemyAudio = GetComponent <AudioSource> ();
+
         hitParticles = GetComponentInChildren <ParticleSystem> ();
         capsuleCollider = GetComponent <CapsuleCollider> ();
 
@@ -41,8 +44,10 @@ public class EnemyHealth : MonoBehaviour
     {
         if(isDead)
             return;
+		// spelar upp ljud triggern som ligger som component och inte i koden, räcker med play då
+		enemyAudio.Play ();
+		enemyAudio.volume = 0.3f;
 
-        enemyAudio.Play ();
 
         currentHealth -= amount;
             
@@ -65,6 +70,7 @@ public class EnemyHealth : MonoBehaviour
         anim.SetTrigger ("Dead");
 
         enemyAudio.clip = deathClip;
+		enemyAudio.volume = 0.5f;
         enemyAudio.Play ();
     }
 
